@@ -6,7 +6,4 @@ python:
   - 3.2
   - pypy
 
-before_install:
-  - pip install --use-mirrors zope.component WebTest virtualenv venusian
-
 script: python setup.py test
