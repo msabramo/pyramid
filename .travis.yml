@@ -1,4 +1,4 @@
-# Wire up travis
+T# Wire up travis
 language: python
 
 python:
@@ -6,6 +6,7 @@ python:
   - 2.7
   - pypy
   - 3.2
+  - 3.3
 
 script: python setup.py test -q
 
