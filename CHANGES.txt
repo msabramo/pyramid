@@ -77,6 +77,11 @@ Features
   output by showing the module instead of just ``__repr__``.
   See https://github.com/Pylons/pyramid/pull/1488
 
+- Subscriber predicates can have an ``events`` attribute that will be checked
+  when adding a subscriber. A ``ConfigurationError`` will be raised when
+  attempting to use a subscriber predicate with an event that it doesn't
+  support. See https://github.com/Pylons/pyramid/pull/1545
+
 Bug Fixes
 ---------
 
