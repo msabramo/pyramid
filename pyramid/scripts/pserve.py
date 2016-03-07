@@ -192,6 +192,8 @@ class PServeCommand(object):
             print(msg)
 
     def get_options(self):
+        vars = dict(os.environ)
+
         if (
                 len(self.args) > 1 and
                 self.args[1] in self.possible_subcommands
@@ -200,7 +202,8 @@ class PServeCommand(object):
         else:
             restvars = self.args[1:]
 
-        return parse_vars(restvars)
+        vars.update(parse_vars(restvars))
+        return vars
 
     def run(self):  # pragma: no cover
         if self.options.stop_daemon:
