@@ -53,7 +53,7 @@ def get_appsettings(config_uri, name=None, options=None, appconfig=appconfig):
         global_conf=options)
 
 def setup_logging(config_uri, fileConfig=fileConfig,
-                  configparser=configparser):
+                  configparser=configparser, global_conf=None):
     """
     Set up logging via the logging module's fileConfig function with the
     filename specified via ``config_uri`` (a string in the form
@@ -67,10 +67,11 @@ def setup_logging(config_uri, fileConfig=fileConfig,
     parser.read([path])
     if parser.has_section('loggers'):
         config_file = os.path.abspath(path)
-        return fileConfig(
-            config_file,
-            dict(__file__=config_file, here=os.path.dirname(config_file))
-            )
+        if global_conf is None:
+            global_conf = dict(
+                __file__=config_file,
+                here=os.path.dirname(config_file))
+        return fileConfig(config_file, global_conf)
 
 def _getpathsec(config_uri, name):
     if '#' in config_uri:
