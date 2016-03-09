@@ -179,6 +179,7 @@ class PServeCommand(object):
 
     _reloader_environ_key = 'PYTHON_RELOADER_SHOULD_RUN'
     _monitor_environ_key = 'PASTE_MONITOR_SHOULD_RUN'
+    _load_env_vars_environ_key = 'PSERVE_LOAD_ENV_VARS'
 
     possible_subcommands = ('start', 'stop', 'restart', 'status')
 
@@ -192,8 +193,6 @@ class PServeCommand(object):
             print(msg)
 
     def get_options(self):
-        vars = dict(os.environ)
-
         if (
                 len(self.args) > 1 and
                 self.args[1] in self.possible_subcommands
@@ -202,8 +201,7 @@ class PServeCommand(object):
         else:
             restvars = self.args[1:]
 
-        vars.update(parse_vars(restvars))
-        return vars
+        return parse_vars(restvars)
 
     def run(self):  # pragma: no cover
         if self.options.stop_daemon:
@@ -277,6 +275,8 @@ class PServeCommand(object):
         app_name = self.options.app_name
 
         vars = self.get_options()
+        if os.environ.get(self._load_env_vars_environ_key):
+            vars.update(os.environ)
 
         if not self._scheme_re.search(app_spec):
             app_spec = 'config:' + app_spec
